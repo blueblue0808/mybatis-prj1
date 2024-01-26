@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zjut.dao.OrderDao">
+    <select id="selectOrderById1" resultType="cn.edu.zjut.po.Order" parameterType="int">
+        select * from order where uid=#{uid}
+    </select>
+
+    <resultMap id="orderWithUser" type="cn.edu.zjut.po.Order">
+        <id property="orderId" column="order_id"/>
+        <association property="myUser" javaType="cn.edu.zjut.po.MyUser">
+            <id property="uid" column="uid"/>
+            <result property="uname" column="uname"/>
+        </association>
+    </resultMap>
+    <select id="listWithUser" resultMap="orderWithUser" parameterType="int">
+        SELECT  o.order_id,o.uid,u.uname
+        FROM `order` o  LEFT JOIN user u ON u.uid = o.uid where o.uid=#{uid}</select>
+
+</mapper>
